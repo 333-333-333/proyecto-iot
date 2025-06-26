@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard IoT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f9ff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 12px 30px;
+      display: flex;
+      justify-content: flex-start; 
+      align-items: center;
+      font-size: 1rem;  
+      font-weight: 500;
+      height: 50px;
+      box-sizing: border-box;
+    }
+    header .usuario {
+      font-style: italic;
+      margin-left: 8px;
+    }
+    a.logout-btn {
+      margin-left: auto; 
+      color: #ffdddd;
+      text-decoration: none;
+      font-weight: 700;
+      background-color: #aa2222;
+      padding: 6px 14px;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+      font-size: 0.9rem;
+    }
+    a.logout-btn:hover {
+      background-color: #cc4444;
+    }
+    iframe {
+      border: none;
+      height: calc(100vh - 50px);
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>Bienvenido,<span class="usuario">{{ usuario }}</span></div>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar sesión</a>
+  </header>
+
+  <iframe src="http://iot.ceisufro.cl:8080/dashboard/c5150c10-46f8-11f0-a76f-af9873efe2ab?publicId=43598140-420e-11f0-a760-c34b83368612" allowfullscreen></iframe>
+
+</body>
+</html>
