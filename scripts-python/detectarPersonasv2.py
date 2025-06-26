@@ -16,7 +16,6 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 import torch
 
-# --- MQTT Setup ---
 THINGSBOARD_HOST = "iot.ceisufro.cl"
 ACCESS_TOKEN = "GyimZTJPTB4rJc08ETWM"
 client = mqtt.Client()
@@ -24,11 +23,9 @@ client.username_pw_set(ACCESS_TOKEN)
 client.connect(THINGSBOARD_HOST, 1883, 60)
 client.loop_start()
 
-# --- YOLOv5n Modelo (ligero) ---
 model = torch.hub.load('ultralytics/yolov5', 'yolov5n', pretrained=True)
-model.classes = [0]  # Solo personas
+model.classes = [0]
 
-# --- Cámara ---
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480), "format": "RGB888"}))
 picam2.start()
@@ -36,11 +33,10 @@ time.sleep(1)
 
 app = Flask(__name__)
 
-# Variables compartidas
 latest_frame = None
 lock = threading.Lock()
 detections_global = []
-last_person_count = -1  # Inicia en -1 para asegurar que envíe al menos una vez
+last_person_count = -1
 
 def detection_thread():
     global latest_frame, detections_global, last_person_count
@@ -61,7 +57,6 @@ def detection_thread():
         count = len(people)
         avg_conf = float(np.mean([det[4] for det in people])) * 100 if people else 0.0
 
-        # Enviar por MQTT solo si cambió la cantidad de personas
         if count != last_person_count:
             payload = {
                 "people_detected": count,

@@ -16,7 +16,6 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 import torch
 
-# --- MQTT Setup ---
 THINGSBOARD_HOST = "iot.ceisufro.cl"
 ACCESS_TOKEN = "GyimZTJPTB4rJc08ETWM"
 client = mqtt.Client()
@@ -24,11 +23,9 @@ client.username_pw_set(ACCESS_TOKEN)
 client.connect(THINGSBOARD_HOST, 1883, 60)
 client.loop_start()
 
-# --- YOLOv5n Modelo (ligero) ---
 model = torch.hub.load('ultralytics/yolov5', 'yolov5n', pretrained=True)
-model.classes = [0]  # Solo personas
+model.classes = [0]
 
-# --- Cámara ---
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480), "format": "RGB888"}))
 picam2.start()
@@ -36,22 +33,20 @@ time.sleep(1)
 
 app = Flask(__name__)
 
-# Variables compartidas
 latest_frame = None
 lock = threading.Lock()
 detections_global = []
 
-# Variables para conteo y lógica de eventos
 personas_previas = 0
 total_personas_pasaron = 0
 last_event_time = 0
-cooldown_segundos = 1.5  # tiempo mínimo entre eventos para evitar rebotes
+cooldown_segundos = 1.5
 
 def detection_thread():
     global latest_frame, detections_global, personas_previas, total_personas_pasaron, last_event_time
 
     while True:
-        time.sleep(0.5)  # velocidad de detección (ajustable)
+        time.sleep(0.5)
         if latest_frame is None:
             continue
         with lock:
@@ -65,7 +60,6 @@ def detection_thread():
         avg_conf = float(np.mean([det[4] for det in people])) * 100 if people else 0.0
         current_time = time.time()
 
-        # Lógica evento nuevo: Si antes no había personas y ahora sí, y pasó el cooldown
         if count > 0 and personas_previas == 0 and (current_time - last_event_time) > cooldown_segundos:
             total_personas_pasaron += count
             payload = {
