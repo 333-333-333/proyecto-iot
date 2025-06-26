@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ingreso - Dashboard IoT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="login-container">
+    <h1>Bienvenido al Dashboard para detección de personas</h1>
+    <form method="POST">
+      <label for="usuario">Nombre de usuario</label>
+      <input type="text" name="usuario" required autocomplete="off" />
+
+      <label for="clave">Contraseña</label>
+      <input type="password" name="clave" required autocomplete="off" />
+
+      <div class="botones">
+        <button type="submit" name="accion" value="ingresar">Iniciar Sesión</button>
+        <button type="submit" name="accion" value="registrar">Registrar</button>
+      </div>
+
+      <p class="mensaje">{{ mensaje }}</p>
+    </form>
+  </div>
+
+</body>
+</html>
