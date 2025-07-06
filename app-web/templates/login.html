@@ -3,27 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ingreso - Dashboard IoT</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #003366;
+      font-size: 1.5rem;
+    }
+
+    .login-container label {
+      display: block;
+      text-align: left;
+      font-weight: 600;
+      margin-top: 15px;
+      color: #222;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 5px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .login-container input:focus {
+      border-color: #003366;
+      outline: none;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+
+    .login-container button {
+      width: 48%;
+      padding: 10px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-container button:hover {
+      background-color: #0059b3;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      color: #b00020;
+      font-weight: 600;
+      min-height: 1.2em;
+    }
+  </style>
 </head>
 <body>
-
   <div class="login-container">
     <h1>Bienvenido al Dashboard para detección de personas</h1>
     <form method="POST">
-      <label for="usuario">Nombre de usuario</label>
+      <label for="usuario">Correo de usuario</label>
       <input type="text" name="usuario" required autocomplete="off" />
 
       <label for="clave">Contraseña</label>
       <input type="password" name="clave" required autocomplete="off" />
 
       <div class="botones">
-        <button type="submit" name="accion" value="ingresar">Iniciar Sesión</button>
-        <button type="submit" name="accion" value="registrar">Registrar</button>
+        <button type="submit">Iniciar Sesión</button>
+        <button type="reset">Limpiar</button>
       </div>
 
       <p class="mensaje">{{ mensaje }}</p>
     </form>
   </div>
-
 </body>
 </html>
